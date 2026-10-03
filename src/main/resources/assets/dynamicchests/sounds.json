@@ -1,0 +1,8 @@
+{
+  "gambler_open":    { "subtitle": "subtitles.dynamicchests.gambler_open",    "sounds": [ { "name": "minecraft:block.chest.open", "type": "event" } ] },
+  "gambler_start":   { "subtitle": "subtitles.dynamicchests.gambler_start",   "sounds": [ { "name": "minecraft:block.beacon.activate", "type": "event", "pitch": 1.6 } ] },
+  "gambler_roll":    { "subtitle": "subtitles.dynamicchests.gambler_roll",    "sounds": [ { "name": "minecraft:block.note_block.hat", "type": "event" } ] },
+  "gambler_win":     { "subtitle": "subtitles.dynamicchests.gambler_win",     "sounds": [ { "name": "minecraft:entity.player.levelup", "type": "event" } ] },
+  "gambler_jackpot": { "subtitle": "subtitles.dynamicchests.gambler_jackpot", "sounds": [ { "name": "minecraft:ui.toast.challenge_complete", "type": "event" } ] },
+  "gambler_lose":    { "subtitle": "subtitles.dynamicchests.gambler_lose",    "sounds": [ { "name": "minecraft:entity.villager.no", "type": "event" } ] }
+}

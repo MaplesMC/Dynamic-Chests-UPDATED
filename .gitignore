@@ -1,0 +1,13 @@
+# gradle
+.gradle/
+build/
+out/
+
+# other
+run/
+eclipse/
+.vscode/
+*.iml
+
+# idea
+.idea/

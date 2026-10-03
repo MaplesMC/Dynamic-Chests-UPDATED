@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "SBS",
+    "SCS",
+    "SSS"
+  ],
+  "key": {
+    "S": "minecraft:soul_sand",
+    "B": "minecraft:bone",
+    "C": "minecraft:chest"
+  },
+  "result": { "id": "dynamicchests:soul_chest", "count": 1 }
+}

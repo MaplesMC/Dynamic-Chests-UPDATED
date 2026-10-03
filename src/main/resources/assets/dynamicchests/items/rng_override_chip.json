@@ -1,0 +1,6 @@
+{
+  "model": {
+    "type": "minecraft:model",
+    "model": "dynamicchests:item/rng_override_chip"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "parent": "dynamicchests:gambler/feeling_lucky",
+  "display": {
+    "icon": { "id": "minecraft:gold_ingot" },
+    "title": { "translate": "advancement.dynamicchests.gambler.high_roller.title" },
+    "description": { "translate": "advancement.dynamicchests.gambler.high_roller.description" },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "gambled": { "trigger": "minecraft:impossible" }
+  }
+}

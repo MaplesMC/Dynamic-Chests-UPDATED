@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "GEG",
+    "GCG",
+    "GGG"
+  ],
+  "key": {
+    "G": "minecraft:glass",
+    "E": "minecraft:ender_pearl",
+    "C": "minecraft:chest"
+  },
+  "result": { "id": "dynamicchests:shadow_chest", "count": 1 }
+}

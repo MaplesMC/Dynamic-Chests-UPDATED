@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "NMR",
+    "MSN",
+    "RNM"
+  ],
+  "key": {
+    "M": "minecraft:copper_ingot",
+    "N": "minecraft:netherite_ingot",
+    "R": "minecraft:redstone",
+    "S": "minecraft:nether_star"
+  },
+  "result": { "id": "dynamicchests:rng_override_chip", "count": 1 }
+}

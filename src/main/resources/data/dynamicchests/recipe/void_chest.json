@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "NON",
+    "OCO",
+    "NON"
+  ],
+  "key": {
+    "N": "minecraft:netherite_ingot",
+    "O": "minecraft:crying_obsidian",
+    "C": "minecraft:chest"
+  },
+  "result": { "id": "dynamicchests:void_chest", "count": 1 }
+}

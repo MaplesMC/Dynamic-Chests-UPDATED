@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "id": "dynamicchests",
+  "version": "${version}",
+  "name": "Dynamic Chests",
+  "description": "Adds the Soul Chest, Shadow Chest, and Void Chest: specialty storage chests with unique behaviors.",
+  "authors": [
+    "YourName"
+  ],
+  "contact": {
+    "homepage": "https://example.net",
+    "sources": "https://example.net"
+  },
+  "license": "CC0-1.0",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "net.example.dynamicchests.DynamicChests"
+    ],
+    "client": [
+      "net.example.dynamicchests.client.DynamicChestsClient"
+    ]
+  },
+  "depends": {
+    "fabricloader": ">=0.19.3",
+    "minecraft": "~26.2",
+    "java": ">=25",
+    "fabric-api": "*"
+  }
+}

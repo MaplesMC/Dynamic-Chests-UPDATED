@@ -1,0 +1,15 @@
+{
+  "parent": "dynamicchests:gambler/feeling_lucky",
+  "display": {
+    "icon": { "id": "minecraft:coal" },
+    "title": { "translate": "advancement.dynamicchests.gambler.degenerate.title" },
+    "description": { "translate": "advancement.dynamicchests.gambler.degenerate.description" },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "gambled": { "trigger": "minecraft:impossible" }
+  }
+}

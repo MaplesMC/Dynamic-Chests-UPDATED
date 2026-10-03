@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "dynamicchests:soul_chest",
+    "dynamicchests:shadow_chest",
+    "dynamicchests:void_chest",
+    "dynamicchests:gambler_chest"
+  ]
+}

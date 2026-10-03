@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "GRG",
+    "BCB",
+    "GLG"
+  ],
+  "key": {
+    "G": "minecraft:gold_block",
+    "L": "minecraft:redstone_lamp",
+    "R": "minecraft:red_wool",
+    "B": "minecraft:black_wool",
+    "C": "minecraft:chest"
+  },
+  "result": { "id": "dynamicchests:gambler_chest", "count": 1 }
+}
