@@ -2,15 +2,24 @@ package net.example.dynamicchests.registry;
 
 import net.example.dynamicchests.DynamicChests;
 import net.example.dynamicchests.block.GamblerChestBlock;
+import net.example.dynamicchests.block.FurnaceChestBlock;
+import net.example.dynamicchests.block.PocketChestBlock;
+import net.example.dynamicchests.block.PocketReturnGateBlock;
 import net.example.dynamicchests.block.VoidChestBlock;
 import net.example.dynamicchests.block.ShadowChestBlock;
 import net.example.dynamicchests.block.SoulChestBlock;
 import net.example.dynamicchests.block.entity.GamblerChestBlockEntity;
+import net.example.dynamicchests.block.entity.FurnaceChestBlockEntity;
+import net.example.dynamicchests.block.entity.PocketChestBlockEntity;
 import net.example.dynamicchests.block.entity.VoidChestBlockEntity;
 import net.example.dynamicchests.block.entity.ShadowChestBlockEntity;
 import net.example.dynamicchests.block.entity.SoulChestBlockEntity;
 import net.example.dynamicchests.gambler.effects.GamblerSounds;
 import net.example.dynamicchests.screen.GamblerChestMenu;
+import net.example.dynamicchests.woodcutter.WoodcutterBlock;
+import net.example.dynamicchests.woodcutter.WoodcutterBlockEntity;
+import net.example.dynamicchests.woodcutter.WoodcutterMenu;
+import net.example.dynamicchests.screen.FurnaceChestMenu;
 import net.example.dynamicchests.screen.VoidChestMenu;
 import net.example.dynamicchests.screen.ShadowChestMenu;
 import net.example.dynamicchests.screen.SoulChestMenu;
@@ -91,6 +100,51 @@ public final class ModRegistry {
 					.noOcclusion())
 	);
 
+	public static final PocketChestBlock POCKET_CHEST_BLOCK = registerBlock(
+			"pocket_chest",
+			key -> new PocketChestBlock(BlockBehaviour.Properties.of()
+					.setId(key)
+					.mapColor(MapColor.SNOW)
+					.strength(2.5f)
+					.sound(SoundType.WOOD)
+					.noOcclusion())
+	);
+
+	/** Doorway inside the pocket that leads back out. Unbreakable and walk-through. */
+	public static final PocketReturnGateBlock POCKET_RETURN_GATE_BLOCK = registerBlock(
+			"pocket_return_gate",
+			key -> new PocketReturnGateBlock(BlockBehaviour.Properties.of()
+					.setId(key)
+					.mapColor(MapColor.SNOW)
+					.strength(-1.0f, 3600000.0f)
+					.noCollision()
+					.noOcclusion()
+					.noLootTable()
+					.lightLevel(state -> 10)
+					.sound(SoundType.AMETHYST))
+	);
+
+	public static final FurnaceChestBlock FURNACE_CHEST_BLOCK = registerBlock(
+			"furnace_chest",
+			key -> new FurnaceChestBlock(BlockBehaviour.Properties.of()
+					.setId(key)
+					.mapColor(MapColor.STONE)
+					.strength(3.5f)
+					.requiresCorrectToolForDrops()
+					.sound(SoundType.STONE)
+					.noOcclusion())
+	);
+
+	public static final WoodcutterBlock WOODCUTTER_BLOCK = registerBlock(
+			"wood_cutter",
+			key -> new WoodcutterBlock(BlockBehaviour.Properties.of()
+					.setId(key)
+					.mapColor(MapColor.WOOD)
+					.strength(2.5f)
+					.sound(SoundType.WOOD)
+					.noOcclusion())
+	);
+
 	// ---------------------------------------------------------------
 	// Items
 	// ---------------------------------------------------------------
@@ -122,6 +176,21 @@ public final class ModRegistry {
 					.component(DataComponents.ENCHANTMENT_GLINT_OVERRIDE, true))
 	);
 
+	public static final Item POCKET_CHEST_ITEM = registerItem(
+			"pocket_chest",
+			key -> new BlockItem(POCKET_CHEST_BLOCK, new Item.Properties().setId(key).useBlockDescriptionPrefix().rarity(Rarity.EPIC))
+	);
+
+	public static final Item FURNACE_CHEST_ITEM = registerItem(
+			"furnace_chest",
+			key -> new BlockItem(FURNACE_CHEST_BLOCK, new Item.Properties().setId(key).useBlockDescriptionPrefix().rarity(Rarity.UNCOMMON))
+	);
+
+	public static final Item WOODCUTTER_ITEM = registerItem(
+			"wood_cutter",
+			key -> new BlockItem(WOODCUTTER_BLOCK, new Item.Properties().setId(key).useBlockDescriptionPrefix())
+	);
+
 	// ---------------------------------------------------------------
 	// Block entities
 	// ---------------------------------------------------------------
@@ -148,6 +217,21 @@ public final class ModRegistry {
 	public static final BlockEntityType<GamblerChestBlockEntity> GAMBLER_CHEST_BLOCK_ENTITY = registerBlockEntity(
 			"gambler_chest",
 			FabricBlockEntityTypeBuilder.create(GamblerChestBlockEntity::new, GAMBLER_CHEST_BLOCK).build()
+	);
+
+	public static final BlockEntityType<PocketChestBlockEntity> POCKET_CHEST_BLOCK_ENTITY = registerBlockEntity(
+			"pocket_chest",
+			FabricBlockEntityTypeBuilder.create(PocketChestBlockEntity::new, POCKET_CHEST_BLOCK).build()
+	);
+
+	public static final BlockEntityType<FurnaceChestBlockEntity> FURNACE_CHEST_BLOCK_ENTITY = registerBlockEntity(
+			"furnace_chest",
+			FabricBlockEntityTypeBuilder.create(FurnaceChestBlockEntity::new, FURNACE_CHEST_BLOCK).build()
+	);
+
+	public static final BlockEntityType<WoodcutterBlockEntity> WOODCUTTER_BLOCK_ENTITY = registerBlockEntity(
+			"wood_cutter",
+			FabricBlockEntityTypeBuilder.create(WoodcutterBlockEntity::new, WOODCUTTER_BLOCK).build()
 	);
 
 	// ---------------------------------------------------------------
@@ -177,6 +261,16 @@ public final class ModRegistry {
 			new ExtendedMenuType<>(GamblerChestMenu::fromNetwork, ByteBufCodecs.VAR_INT.cast())
 	);
 
+	public static final ExtendedMenuType<FurnaceChestMenu, Integer> FURNACE_CHEST_MENU = registerMenu(
+			"furnace_chest",
+			new ExtendedMenuType<>(FurnaceChestMenu::fromNetwork, ByteBufCodecs.VAR_INT.cast())
+	);
+
+	public static final ExtendedMenuType<WoodcutterMenu, Integer> WOODCUTTER_MENU = registerMenu(
+			"wood_cutter",
+			new ExtendedMenuType<>(WoodcutterMenu::fromNetwork, ByteBufCodecs.VAR_INT.cast())
+	);
+
 	// ---------------------------------------------------------------
 	// Creative mode tab
 	// ---------------------------------------------------------------
@@ -193,6 +287,9 @@ public final class ModRegistry {
 						output.accept(SHADOW_CHEST_ITEM);
 						output.accept(VOID_CHEST_ITEM);
 						output.accept(GAMBLER_CHEST_ITEM);
+						output.accept(WOODCUTTER_ITEM);
+						output.accept(FURNACE_CHEST_ITEM);
+						output.accept(POCKET_CHEST_ITEM);
 						output.accept(RNG_OVERRIDE_CHIP);
 					})
 					.build()

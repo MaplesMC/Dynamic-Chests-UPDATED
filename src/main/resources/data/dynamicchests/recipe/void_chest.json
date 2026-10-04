@@ -6,9 +6,9 @@
     "NON"
   ],
   "key": {
-    "N": "minecraft:netherite_ingot",
+    "N": "minecraft:amethyst_shard",
     "O": "minecraft:crying_obsidian",
-    "C": "minecraft:chest"
+    "C": "minecraft:ender_chest"
   },
   "result": { "id": "dynamicchests:void_chest", "count": 1 }
 }

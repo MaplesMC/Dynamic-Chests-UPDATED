@@ -13,6 +13,9 @@
   },
   "license": "CC0-1.0",
   "environment": "*",
+  "mixins": [
+    "dynamicchests.mixins.json"
+  ],
   "entrypoints": {
     "main": [
       "net.example.dynamicchests.DynamicChests"

@@ -323,7 +323,7 @@ public class GamblerChestBlockEntity extends AbstractVaultChestBlockEntity imple
 					.record(gamble.player, gamble.outcome, gamble.betValue);
 			ServerPlayer player = serverLevel.getServer().getPlayerList().getPlayer(gamble.player);
 			if (player != null) {
-				GamblerAdvancements.onGambleFinished(player, gamble.outcome, stats);
+				GamblerAdvancements.onGambleFinished(player, gamble.outcome, stats, gamble.bet);
 			}
 		}
 		setChanged();
@@ -362,11 +362,13 @@ public class GamblerChestBlockEntity extends AbstractVaultChestBlockEntity imple
 				&& ItemRules.isAllowed(stack);
 	}
 
+	/**
+	 * Hoppers can always empty the payout slots, whatever the automation setting says: a payout is the player's
+	 * winnings, so taking it out automatically is harmless. The bet slot can never be taken from.
+	 */
 	@Override
 	public boolean canTakeItem(Container target, int slot, ItemStack stack) {
-		return GamblerConfig.get().restrictions.allowAutomation
-				&& slot >= OUTPUT_START
-				&& this.pending == null;
+		return slot >= OUTPUT_START;
 	}
 
 	// ------------------------------------------------------------------

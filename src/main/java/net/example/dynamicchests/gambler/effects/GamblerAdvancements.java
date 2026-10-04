@@ -6,6 +6,8 @@ import net.example.dynamicchests.gambler.logic.GambleOutcome;
 import net.minecraft.advancements.AdvancementHolder;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 
 /**
  * Awards the Gambler's Chest advancements. The advancement JSONs use an impossible criterion
@@ -21,13 +23,16 @@ public final class GamblerAdvancements {
 	public static final int HIGH_ROLLER_WINS = 10;
 	public static final int DEGENERATE_LOSSES = 100;
 
-	public static void onGambleFinished(ServerPlayer player, GambleOutcome outcome, GamblerPlayerData.Stats stats) {
+	public static void onGambleFinished(ServerPlayer player, GambleOutcome outcome, GamblerPlayerData.Stats stats, ItemStack bet) {
 		award(player, "gambler/feeling_lucky");
 		if (stats.wins >= HIGH_ROLLER_WINS) {
 			award(player, "gambler/high_roller");
 		}
 		if (outcome == GambleOutcome.JACKPOT) {
 			award(player, "gambler/jackpot");
+		}
+		if (outcome == GambleOutcome.JACKPOT && bet.is(Items.JACK_O_LANTERN)) {
+			award(player, "gambler/jack_o_jackpot");
 		}
 		if (stats.losses >= DEGENERATE_LOSSES) {
 			award(player, "gambler/degenerate");

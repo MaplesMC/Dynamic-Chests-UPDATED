@@ -4,6 +4,9 @@
     "dynamicchests:soul_chest",
     "dynamicchests:shadow_chest",
     "dynamicchests:void_chest",
-    "dynamicchests:gambler_chest"
+    "dynamicchests:gambler_chest",
+    "dynamicchests:pocket_chest",
+    "dynamicchests:sahur_chest",
+    "dynamicchests:wood_cutter"
   ]
 }

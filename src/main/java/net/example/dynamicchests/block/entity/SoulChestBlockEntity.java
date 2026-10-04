@@ -10,8 +10,12 @@ import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.core.Direction;
+import net.minecraft.world.Container;
+import net.minecraft.world.WorldlyContainer;
 import net.minecraft.world.entity.ContainerUser;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -20,16 +24,58 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 
-public class SoulChestBlockEntity extends AbstractVaultChestBlockEntity implements ExtendedMenuProvider<Integer> {
+public class SoulChestBlockEntity extends AbstractVaultChestBlockEntity implements ExtendedMenuProvider<Integer>, WorldlyContainer {
 
     // 36 main/hotbar + 4 armor + 1 offhand = 41 total, mirroring the player's full inventory.
     public static final int CONTAINER_SIZE = 41;
+
+    /** Base pitch of the open and close sounds (1.0 is normal; lower is deeper). */
+    private static final float SOUND_PITCH = 0.55f;
 
     private boolean hasSoulItems = false;
 
     public SoulChestBlockEntity(BlockPos pos, BlockState state) {
         super(ModRegistry.SOUL_CHEST_BLOCK_ENTITY, pos, state,
-                SoundEvents.CHEST_OPEN, SoundEvents.CHEST_CLOSE);
+                SoundEvents.ENDER_CHEST_OPEN, SoundEvents.ENDER_CHEST_CLOSE);
+    }
+
+    /** Opening and closing use the ender chest sounds, pitched well down so the chest sounds hollow and ghostly. */
+    @Override
+    public void playSound(SoundEvent sound) {
+        if (level == null || level.isClientSide()) {
+            return;
+        }
+        level.playSound(null, worldPosition.getX() + 0.5, worldPosition.getY() + 0.5, worldPosition.getZ() + 0.5,
+                sound, SoundSource.BLOCKS, 0.6f, SOUND_PITCH + level.getRandom().nextFloat() * 0.08f);
+    }
+
+    // ── Hoppers and other automation: not allowed ─────────────────────────────
+    // The Soul Chest is a one-off container for a single death. Hoppers, droppers and the like can
+    // neither fill it nor empty it from any side, so nothing can slip in or out behind the player.
+
+    @Override
+    public int[] getSlotsForFace(Direction side) {
+        return new int[0];
+    }
+
+    @Override
+    public boolean canPlaceItemThroughFace(int slot, ItemStack stack, Direction side) {
+        return false;
+    }
+
+    @Override
+    public boolean canTakeItemThroughFace(int slot, ItemStack stack, Direction side) {
+        return false;
+    }
+
+    @Override
+    public boolean canPlaceItem(int slot, ItemStack stack) {
+        return false;
+    }
+
+    @Override
+    public boolean canTakeItem(Container target, int slot, ItemStack stack) {
+        return false;
     }
 
     @Override
@@ -59,7 +105,16 @@ public class SoulChestBlockEntity extends AbstractVaultChestBlockEntity implemen
      *   chest 36-39 ← player armor (INVENTORY_SIZE to SLOT_OFFHAND-1)
      *   chest 40    ← player offhand (SLOT_OFFHAND = 40)
      */
+    /** True once this chest has captured a death. A chest only ever records the first one. */
+    public boolean hasSoulItems() {
+        return hasSoulItems;
+    }
+
     public void capturePlayerInventory(Player player) {
+        // A chest records only the first death after it was placed: never replace or add to what it holds.
+        if (hasSoulItems || !isEmpty()) {
+            return;
+        }
         Inventory inv = player.getInventory();
 
         // Main inventory + hotbar (slots 0-35)

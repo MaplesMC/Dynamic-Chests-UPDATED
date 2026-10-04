@@ -4,6 +4,9 @@ import net.example.dynamicchests.registry.ModRegistry;
 import net.example.dynamicchests.render.VaultChestBlockEntityRenderer;
 import net.example.dynamicchests.render.GamblerChestBlockEntityRenderer;
 import net.example.dynamicchests.screen.GamblerChestScreen;
+import net.example.dynamicchests.woodcutter.WoodcutterChestRenderer;
+import net.example.dynamicchests.woodcutter.WoodcutterScreen;
+import net.example.dynamicchests.screen.FurnaceChestScreen;
 import net.example.dynamicchests.screen.VoidChestScreen;
 import net.example.dynamicchests.screen.ShadowChestScreen;
 import net.example.dynamicchests.screen.SoulChestScreen;
@@ -21,10 +24,14 @@ public class DynamicChestsClient implements ClientModInitializer {
 
 	@Override
 	public void onInitializeClient() {
+		net.example.dynamicchests.sahur.SahurChestClient.init(); // SAHUR-CHEST (delete with the sahur package)
 		MenuScreens.register(ModRegistry.VOID_CHEST_MENU, VoidChestScreen::new);
 		MenuScreens.register(ModRegistry.SHADOW_CHEST_MENU, ShadowChestScreen::new);
 		MenuScreens.register(ModRegistry.SOUL_CHEST_MENU, SoulChestScreen::new);
 		MenuScreens.register(ModRegistry.GAMBLER_CHEST_MENU, GamblerChestScreen::new);
+		MenuScreens.register(ModRegistry.WOODCUTTER_MENU, WoodcutterScreen::new);
+		BlockEntityRenderers.register(ModRegistry.WOODCUTTER_BLOCK_ENTITY, WoodcutterChestRenderer::new);
+		MenuScreens.register(ModRegistry.FURNACE_CHEST_MENU, FurnaceChestScreen::new);
 
 		BlockEntityRenderers.register(ModRegistry.VOID_CHEST_BLOCK_ENTITY,
 				context -> new VaultChestBlockEntityRenderer<>(context,
@@ -36,6 +43,14 @@ public class DynamicChestsClient implements ClientModInitializer {
 		BlockEntityRenderers.register(ModRegistry.GAMBLER_CHEST_BLOCK_ENTITY,
 				context -> new GamblerChestBlockEntityRenderer(context,
 						tex("gambler_chest"), tex("gambler_chest_active"), tex("gambler_chest_jackpot")));
+
+		BlockEntityRenderers.register(ModRegistry.POCKET_CHEST_BLOCK_ENTITY,
+				context -> new VaultChestBlockEntityRenderer<>(context,
+						tex("pocket_chest"), tex("pocket_chest"), tex("pocket_chest")));
+
+		BlockEntityRenderers.register(ModRegistry.FURNACE_CHEST_BLOCK_ENTITY,
+				context -> new VaultChestBlockEntityRenderer<>(context,
+						tex("furnace_chest"), tex("furnace_chest"), tex("furnace_chest")));
 
 		BlockEntityRenderers.register(ModRegistry.SOUL_CHEST_BLOCK_ENTITY,
 				context -> new VaultChestBlockEntityRenderer<>(context,

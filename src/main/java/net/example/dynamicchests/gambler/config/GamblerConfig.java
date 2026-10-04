@@ -117,7 +117,7 @@ public final class GamblerConfig {
 	}
 
 	public static final class Restrictions {
-		/** Hoppers and other automation may insert/extract. Gambling itself always needs a player. */
+		/** Hoppers and other automation may insert the bet item. Payouts can always be taken out by hoppers, and gambling itself always needs a player. */
 		@SerializedName("allow_automation") public boolean allowAutomation = false;
 		/** Allow items that carry an inventory (shulker boxes, bundles, filled containers). Dangerous. */
 		@SerializedName("allow_containers") public boolean allowContainers = false;

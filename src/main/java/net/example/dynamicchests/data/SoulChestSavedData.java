@@ -83,7 +83,7 @@ public class SoulChestSavedData extends SavedData {
     }
 
     /**
-     * Finds the nearest registered Soul Chest across ALL dimensions.
+     * Finds the nearest registered Soul Chest that is still free (has not captured a death yet) across ALL dimensions.
      * Same-dimension chests are strongly preferred (10⁶× penalty for cross-dim).
      * Force-loads the chunk synchronously so unloaded chests are reachable.
      * Automatically cleans up stale registry entries on the way.
@@ -115,6 +115,11 @@ public class SoulChestSavedData extends SavedData {
                     entry.getValue().remove(encoded);
                     if (entry.getValue().isEmpty()) registry.remove(entry.getKey());
                     setDirty();
+                    continue;
+                }
+
+                // A chest that already holds a death is used up: later deaths go to another free chest, or drop normally.
+                if (soul.hasSoulItems()) {
                     continue;
                 }
 
