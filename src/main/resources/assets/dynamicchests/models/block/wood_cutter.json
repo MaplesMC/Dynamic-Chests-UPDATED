@@ -1,0 +1,16 @@
+{
+  "textures": {
+    "saw": "minecraft:block/stonecutter_saw",
+    "particle": "minecraft:block/spruce_planks"
+  },
+  "elements": [
+    {
+      "from": [1, 6.9, 8],
+      "to": [15, 13.9, 8],
+      "faces": {
+        "north": { "uv": [1, 9, 15, 16], "texture": "#saw" },
+        "south": { "uv": [15, 9, 1, 16], "texture": "#saw" }
+      }
+    }
+  ]
+}

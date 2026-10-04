@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ISI",
+    "ICI",
+    "IBI"
+  ],
+  "key": {
+    "B": "minecraft:blast_furnace",
+    "S": "minecraft:smoker",
+    "I": "minecraft:iron_ingot",
+    "C": "minecraft:chest"
+  },
+  "result": { "id": "dynamicchests:furnace_chest", "count": 1 }
+}

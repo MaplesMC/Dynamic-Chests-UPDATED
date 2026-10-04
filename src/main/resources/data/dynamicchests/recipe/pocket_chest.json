@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "QEQ",
+    "ECE",
+    "QEQ"
+  ],
+  "key": {
+    "Q": "minecraft:quartz_block",
+    "E": "minecraft:chorus_fruit",
+    "C": "minecraft:chest"
+  },
+  "result": { "id": "dynamicchests:pocket_chest", "count": 1 }
+}

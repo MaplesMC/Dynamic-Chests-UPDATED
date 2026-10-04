@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "facing=south,type=single": { "model": "dynamicchests:block/pocket_chest_single" },
+    "facing=north,type=single": { "model": "dynamicchests:block/pocket_chest_single", "y": 180 },
+    "facing=east,type=single":  { "model": "dynamicchests:block/pocket_chest_single", "y": 90 },
+    "facing=west,type=single":  { "model": "dynamicchests:block/pocket_chest_single", "y": 270 },
+    "facing=south,type=left":   { "model": "dynamicchests:block/pocket_chest_single" },
+    "facing=north,type=left":   { "model": "dynamicchests:block/pocket_chest_single", "y": 180 },
+    "facing=east,type=left":    { "model": "dynamicchests:block/pocket_chest_single", "y": 90 },
+    "facing=west,type=left":    { "model": "dynamicchests:block/pocket_chest_single", "y": 270 },
+    "facing=south,type=right":  { "model": "dynamicchests:block/pocket_chest_single" },
+    "facing=north,type=right":  { "model": "dynamicchests:block/pocket_chest_single", "y": 180 },
+    "facing=east,type=right":   { "model": "dynamicchests:block/pocket_chest_single", "y": 90 },
+    "facing=west,type=right":   { "model": "dynamicchests:block/pocket_chest_single", "y": 270 }
+  }
+}

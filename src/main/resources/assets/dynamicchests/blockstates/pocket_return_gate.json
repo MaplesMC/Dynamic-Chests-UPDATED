@@ -1,0 +1,6 @@
+{
+  "variants": {
+    "axis=x": { "model": "dynamicchests:block/pocket_return_gate" },
+    "axis=z": { "model": "dynamicchests:block/pocket_return_gate", "y": 90 }
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "parent": "dynamicchests:gambler/jackpot",
+  "display": {
+    "icon": { "id": "minecraft:jack_o_lantern" },
+    "title": { "translate": "advancement.dynamicchests.gambler.jack_o_jackpot.title" },
+    "description": { "translate": "advancement.dynamicchests.gambler.jack_o_jackpot.description" },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "gambled": { "trigger": "minecraft:impossible" }
+  }
+}

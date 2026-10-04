@@ -1,0 +1,11 @@
+{
+  "required": true,
+  "package": "net.example.dynamicchests.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": [
+    "WorldDimensionsMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

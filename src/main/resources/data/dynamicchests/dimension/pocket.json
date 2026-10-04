@@ -1,0 +1,10 @@
+{
+  "type": "dynamicchests:pocket",
+  "generator": {
+    "type": "dynamicchests:pocket",
+    "biome_source": {
+      "type": "minecraft:fixed",
+      "biome": "dynamicchests:pocket_plains"
+    }
+  }
+}
