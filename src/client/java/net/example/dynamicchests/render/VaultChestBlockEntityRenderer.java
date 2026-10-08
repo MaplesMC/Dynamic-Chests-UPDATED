@@ -14,6 +14,7 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 
@@ -35,6 +36,19 @@ public class VaultChestBlockEntityRenderer<T extends AbstractVaultChestBlockEnti
 	private final Identifier singleTexture;
 	private final Identifier leftTexture;
 	private final Identifier rightTexture;
+
+	/** Optional replacement for the single texture while the block state is {@code lit=true}. */
+	@Nullable
+	private BlendedFrameTexture litSingleTexture;
+
+	/**
+	 * Sets the textures used for a single chest whose block state is lit. With several frames they cross-fade in a loop,
+	 * each shown for {@code frameTicks} ticks (a vanilla blast furnace's lit front uses 10).
+	 */
+	public VaultChestBlockEntityRenderer<T> withLitTextures(Identifier animatedId, int frameTicks, Identifier... frames) {
+		this.litSingleTexture = new BlendedFrameTexture(animatedId, frameTicks, frames);
+		return this;
+	}
 
 	public VaultChestBlockEntityRenderer(BlockEntityRendererProvider.Context context,
 			Identifier singleTexture, Identifier leftTexture, Identifier rightTexture) {
@@ -69,6 +83,9 @@ public class VaultChestBlockEntityRenderer<T extends AbstractVaultChestBlockEnti
 				: Direction.SOUTH;
 		state.facingYaw = facing.toYRot();
 
+		state.gameTime = blockEntity.getLevel() == null ? 0 : blockEntity.getLevel().getGameTime();
+		state.lit = blockState.hasProperty(BlockStateProperties.LIT) && blockState.getValue(BlockStateProperties.LIT);
+
 		state.chestType = blockState.hasProperty(AbstractVaultChestBlock.CHEST_TYPE)
 				? blockState.getValue(AbstractVaultChestBlock.CHEST_TYPE)
 				: VaultChestType.SINGLE;
@@ -83,6 +100,9 @@ public class VaultChestBlockEntityRenderer<T extends AbstractVaultChestBlockEnti
 			case LEFT  -> { model = this.leftModel;   texture = this.leftTexture; }
 			case RIGHT -> { model = this.rightModel;  texture = this.rightTexture; }
 			default    -> { model = this.singleModel; texture = this.singleTexture; }
+		}
+		if (state.lit && state.chestType == VaultChestType.SINGLE && this.litSingleTexture != null) {
+			texture = this.litSingleTexture.at(state.gameTime);
 		}
 
 		poseStack.pushPose();

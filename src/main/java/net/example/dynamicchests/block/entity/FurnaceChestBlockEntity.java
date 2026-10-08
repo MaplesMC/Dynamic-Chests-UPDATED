@@ -8,7 +8,9 @@ import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.Container;
 import net.minecraft.world.ItemStackWithSlot;
 import net.minecraft.world.WorldlyContainer;
@@ -23,6 +25,7 @@ import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.item.crafting.SingleRecipeInput;
 import net.minecraft.world.item.crafting.SmeltingRecipe;
 import net.minecraft.world.level.Level;
+import net.example.dynamicchests.block.FurnaceChestBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.ValueInput;
@@ -128,7 +131,37 @@ public class FurnaceChestBlockEntity extends AbstractVaultChestBlockEntity
 	};
 
 	public FurnaceChestBlockEntity(BlockPos pos, BlockState state) {
-		super(ModRegistry.FURNACE_CHEST_BLOCK_ENTITY, pos, state, SoundEvents.CHEST_OPEN, SoundEvents.CHEST_CLOSE);
+		super(ModRegistry.FURNACE_CHEST_BLOCK_ENTITY, pos, state, SoundEvents.COPPER_CHEST_OPEN, SoundEvents.COPPER_CHEST_CLOSE);
+	}
+
+	/**
+	 * Opening and closing: a layered sound of its own, built from deep stone, grinding and furnace-heat sounds
+	 * with no metal in it.
+	 */
+	@Override
+	public void playSound(SoundEvent sound) {
+		if (this.level == null || this.level.isClientSide()) {
+			return;
+		}
+		double x = this.worldPosition.getX() + 0.5;
+		double y = this.worldPosition.getY() + 0.5;
+		double z = this.worldPosition.getZ() + 0.5;
+		boolean opening = sound == getOpenSound();
+		float jitter = this.level.getRandom().nextFloat() * 0.06f;
+		if (opening) {
+			// A slab grinding aside, a deep stone shift, and a breath of furnace heat rushing out.
+			play(x, y, z, SoundEvents.GRINDSTONE_USE, 0.45f, 0.5f + jitter);
+			play(x, y, z, SoundEvents.DEEPSLATE_TILES_STEP, 0.9f, 0.55f + jitter);
+			play(x, y, z, SoundEvents.FIRECHARGE_USE, 0.3f, 0.65f + jitter);
+		} else {
+			// The slab dropping home: a dull deepslate thud with a crumble of basalt behind it.
+			play(x, y, z, SoundEvents.DEEPSLATE_BRICKS_PLACE, 1.0f, 0.6f + jitter);
+			play(x, y, z, SoundEvents.BASALT_BREAK, 0.4f, 0.5f + jitter);
+		}
+	}
+
+	private void play(double x, double y, double z, SoundEvent sound, float volume, float pitch) {
+		this.level.playSound(null, x, y, z, sound, SoundSource.BLOCKS, volume, pitch);
 	}
 
 	@Override
@@ -180,8 +213,38 @@ public class FurnaceChestBlockEntity extends AbstractVaultChestBlockEntity
 		for (int furnace = 0; furnace < FURNACES; furnace++) {
 			changed |= tickFurnace(level, furnace);
 		}
+		updateLitState(level);
 		if (changed) {
 			setChanged();
+		}
+	}
+
+	/** Ticks the chest stays lit after the last furnace stops, so the gap between two items does not flicker. */
+	private static final int LIT_GRACE_TICKS = 10;
+	private int litGrace;
+
+	/** Mirrors "is any furnace cooking" into the block state so the chest swaps textures and gives off light. */
+	private void updateLitState(ServerLevel level) {
+		boolean cooking = false;
+		for (int furnace = 0; furnace < FURNACES; furnace++) {
+			if (this.batch[furnace] > 0) {
+				cooking = true;
+				break;
+			}
+		}
+		if (cooking) {
+			this.litGrace = LIT_GRACE_TICKS;
+			// Same crackle a lit blast furnace makes (vanilla rolls 10% per tick, at full volume).
+			if (level.getRandom().nextFloat() < 0.1f) {
+				level.playSound(null, this.worldPosition, SoundEvents.BLASTFURNACE_FIRE_CRACKLE, SoundSource.BLOCKS, 1.0f, 1.0f);
+			}
+		} else if (this.litGrace > 0) {
+			this.litGrace--;
+			cooking = true;
+		}
+		BlockState state = getBlockState();
+		if (state.hasProperty(FurnaceChestBlock.LIT) && state.getValue(FurnaceChestBlock.LIT) != cooking) {
+			level.setBlock(this.worldPosition, state.setValue(FurnaceChestBlock.LIT, cooking), Block.UPDATE_ALL);
 		}
 	}
 

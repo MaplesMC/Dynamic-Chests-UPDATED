@@ -50,7 +50,8 @@ public class DynamicChestsClient implements ClientModInitializer {
 
 		BlockEntityRenderers.register(ModRegistry.FURNACE_CHEST_BLOCK_ENTITY,
 				context -> new VaultChestBlockEntityRenderer<>(context,
-						tex("furnace_chest"), tex("furnace_chest"), tex("furnace_chest")));
+						tex("furnace_chest_off"), tex("furnace_chest_off"), tex("furnace_chest_off"))
+						.withLitTextures(tex("furnace_chest_on_anim"), 10, tex("furnace_chest_on"), tex("furnace_chest_on_1")));
 
 		BlockEntityRenderers.register(ModRegistry.SOUL_CHEST_BLOCK_ENTITY,
 				context -> new VaultChestBlockEntityRenderer<>(context,

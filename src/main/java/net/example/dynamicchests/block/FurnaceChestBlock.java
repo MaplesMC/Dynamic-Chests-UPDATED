@@ -13,17 +13,31 @@ import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.block.Block;
 
 /** The Furnace Chest: a single-block chest that smelts four stacks at once. */
 public class FurnaceChestBlock extends AbstractVaultChestBlock {
 
+	/** True while at least one of the six furnaces is cooking; picks the glowing texture and lights the block. */
+	public static final BooleanProperty LIT = BlockStateProperties.LIT;
+
 	public FurnaceChestBlock(BlockBehaviour.Properties properties) {
 		super(properties);
+		this.registerDefaultState(this.defaultBlockState().setValue(LIT, false));
 	}
 
 	@Override
 	protected MapCodec<? extends BaseEntityBlock> codec() {
 		return simpleCodec(FurnaceChestBlock::new);
+	}
+
+	@Override
+	protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+		super.createBlockStateDefinition(builder);
+		builder.add(LIT);
 	}
 
 	@Override

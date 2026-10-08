@@ -1,6 +1,7 @@
 package net.example.dynamicchests.render;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import net.example.dynamicchests.block.ShadowChestBlock;
 import net.example.dynamicchests.block.entity.ShadowChestBlockEntity;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.SubmitNodeCollector;
@@ -15,7 +16,7 @@ import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * Renders the Shadow Chest as the block directly beneath it, achieving a camouflage effect.
+ * Renders the Shadow Chest as the block directly beneath it (in a stack of shadow chests, the block under the whole stack), achieving a camouflage effect.
  * The chest model is never shown — only the mimic block is rendered at the chest's position.
  * If nothing is below (air), nothing is rendered.
  */

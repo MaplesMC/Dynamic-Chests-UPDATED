@@ -127,6 +127,7 @@ public final class ModRegistry {
 	public static final FurnaceChestBlock FURNACE_CHEST_BLOCK = registerBlock(
 			"furnace_chest",
 			key -> new FurnaceChestBlock(BlockBehaviour.Properties.of()
+					.lightLevel(state -> state.getValue(FurnaceChestBlock.LIT) ? 13 : 0)
 					.setId(key)
 					.mapColor(MapColor.STONE)
 					.strength(3.5f)

@@ -4,7 +4,7 @@
     "base": "minecraft:item/chest",
     "model": {
       "type": "minecraft:chest",
-      "texture": "dynamicchests:furnace_chest"
+      "texture": "dynamicchests:furnace_chest_off"
     }
   }
 }

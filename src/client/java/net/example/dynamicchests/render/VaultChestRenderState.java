@@ -18,4 +18,10 @@ public class VaultChestRenderState extends BlockEntityRenderState {
 
     /** Whether this block is a standalone single chest, the left half, or the right half of a double. */
     public VaultChestType chestType = VaultChestType.SINGLE;
+
+    /** Whether the block state has {@code lit=true} (used by chests with an "on" texture, like the Furnace Chest). */
+    public boolean lit;
+
+    /** World game time in ticks, drives animated textures. */
+    public long gameTime;
 }
